@@ -10,16 +10,19 @@
     <div class="header"> <h1>Welcomme to GraphQL</h1></div>
 
     <div class="centerdiv">
-     <form action="/" class="forme">
-        <input type="text" name="username" id="username" placeholder="Username">
+     <form action="/" class="forme" id="loginForm">
+        <input type="text" name="username" id="usernameOrEmail" placeholder="usernameOrEmail">
         <br>
-        <input type="password" name="passwod" id="passwod" placeholder="passwod">
+        <input type="password" name="passwod" id="password" placeholder="passwod">
+        <br>
+        <span id="error"></span>
         <br>
         <button type="submit" class="button">Login</button>
 
      </form>
 
     </div>
+    <script src="./static/index.js"></script>
     
 </body>
 </html>
