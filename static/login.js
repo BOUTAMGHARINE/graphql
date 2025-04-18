@@ -25,28 +25,23 @@ login()
 }
 export function login(){
     document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault();  // Empêche l'envoi du formulaire traditionnel
-      
-        // Récupérer les valeurs du formulaire
+        event.preventDefault();  
         const usernameOrEmail = document.getElementById('usernameOrEmail').value;
         const password = document.getElementById('password').value;
         let Messageerror = document.getElementById('error') ;
          Messageerror.innerHTML="";
       
-        // Créer les données pour l'authentification de base
         const credentials = `${usernameOrEmail}:${password}`;
         
-        // Encoder les informations en base64
-        const base64Credentials = btoa(credentials); // Utilisation de btoa pour base64
+        const base64Credentials = btoa(credentials);
       
-        // Effectuer la requête POST pour récupérer le JWT
         fetch('https://learn.zone01oujda.ma/api/auth/signin', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': `Basic ${base64Credentials}`,  // Ajouter l'en-tête Authorization
+            'Authorization': `Basic ${base64Credentials}`,  
           },
-          body: new URLSearchParams()  // Corps vide car les données sont dans les en-têtes
+          body: new URLSearchParams() 
         })
           .then(response => {
             console.log(response);
@@ -54,19 +49,18 @@ export function login(){
             if (!response.ok) {
               throw new Error('Invalid credentials');
             }
-            return response.json();  // Extraire le JSON de la réponse
+            return response.json();  
           })
           .then(data => {
+            console.log("hihi");
             
-            const jwt = data;  // Récupérer le JWT de la réponse
+            
+            const jwt = data;  
       
-            // Stocker le JWT localement (dans localStorage ou sessionStorage)
-            localStorage.setItem('jwt', jwt);  // Vous pouvez aussi utiliser sessionStorage selon vos besoins
-            navigateTo("/Profile")
+            localStorage.setItem('jwt', jwt);
     
-            // Afficher un message de succès ou rediriger vers la page de profil
             console.log('Login successful! JWT:', jwt);
-            //window.location.href = 'profile.html';  // Rediriger vers la page de profil après la connexion
+            navigateTo("/profile")
     
           })
           .catch(error => {

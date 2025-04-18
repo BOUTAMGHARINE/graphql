@@ -1,26 +1,46 @@
+import { navigateTo } from "./index.js";
 
 
-async function FetchProfile() {
-    const token = localStorage.getItem("token");
+export async function FetchProfile() {
+    const token = localStorage.getItem("jwt");
+    console.log(token);
+    
 
 if (!token) {
 
     navigateTo("/login")
 }
 
-  const  div3 = document.getElementById("div1")
+  const  div3 = document.getElementById("div")
   div3.innerHTML=""
-  div3.innerHTML`<div class="container">
-        <h2>Profil Utilisateur</h2>
-        <div id="profile"></div>
-        <h3>Statistiques</h3>
-        <svg id="statsGraph" width="400" height="200"></svg>
-        <button onclick="logout()">Déconnexion</button>
-    </div>`
+  div3.innerHTML=`<div class="navbar">
+   <button class="btn-logout" >logout</button>
+   <h1>
+   <div class="Profilename"></div>
+  
+  </div>
+                 <div class="containere">
+                    <h2>Welcome</h2>
+                    <div id="profile"></div>
+                    <h3>Statistiques</h3>
+                    <svg id="statsGraph" width="400" height="200"></svg>
+                    
+                        </div>`
+
+
+
+
+    const logout_button = document.querySelector(".btn-logout")
+      
+    logout_button.addEventListener("click",()=>{
+        logout();
+
+    })
     
     
     const query = `{
         user {
+            
             id
             login
         }
@@ -40,7 +60,16 @@ if (!token) {
     });
 
     const data = await response.json();
-    displayProfile(data.data);
+    console.log(data);
+    console.log(data.data.user);
+
+    
+
+    document.querySelector(".Profilename").innerHTML+=`<p><strong>${data.data.user[0].login}</strong></p>`
+    console.log( document.querySelector(".Profilename"));
+    
+    
+  //  displayProfile(data.data);
     drawGraph(data.data.transaction);
 }
 
@@ -71,7 +100,6 @@ function drawGraph(transactions) {
 
 function logout() {
     localStorage.removeItem("token");
-    window.location.href = "index.html";
+    navigateTo("/login")
 }
 
-fetchProfile();

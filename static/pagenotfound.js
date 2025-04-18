@@ -1,6 +1,6 @@
-
-function PageNotfound() {
-    const div2 = document.getElementById("div1")
+import { navigateTo } from "./index.js";
+export function PageNotfound() {
+    const div2 = document.getElementById("div")
     div2.innerHTML=""
     div2.innerHTML=`<main class="err-main">
       <div class="err-bg"></div>
@@ -14,8 +14,9 @@ function PageNotfound() {
       </div>
   </main>`;
   document.querySelector(".go-back-error").addEventListener("click",(e)=>{
+    e.preventDefault();
      
-      navigateTo("/login")
+      navigateTo("/login");
 
    })
   }

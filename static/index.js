@@ -4,18 +4,19 @@ import  {PageNotfound} from "./pagenotfound.js"
 
 
 
-
-
- const navigateTo = url =>{
+ export const navigateTo = url =>{
   history.pushState(null,null,url);
   router()
 };
 
 const router = async() => {
+  console.log("HI");
+  
+
 
   const routes = [
         {path: "/login", view:CreatloginePage},
-          {path: "/profile", view:FetchProfile}
+         {path: "/profile", view:FetchProfile}
   ]
   let find = routes.map(route => {
       return {
@@ -32,16 +33,19 @@ const router = async() => {
       } 
   }
   
+  
   match.route.view();
 
   
 } 
+router();
  const item = localStorage.getItem('jwt')
- console.log(item);
  
  if (!item ){
   navigateTo("/login")
  }
+ navigateTo("/login")
+
   
 
 
