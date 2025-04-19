@@ -14,6 +14,7 @@ if (!token) {
   const  div3 = document.getElementById("div")
   div3.innerHTML=""
   div3.innerHTML=`<div class="navbar">
+  <img src="./img/1697464140948.jpeg">
    <button class="btn-logout" >logout</button>
    <h1>
    <div class="Profilename"></div>
