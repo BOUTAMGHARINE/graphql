@@ -32,7 +32,7 @@ input{
     transform: translate(-50%,50%);
 }
 .navbar {
-    background-color: red;
+   /* / background-color: red; */
     position: fixed;
     width: 100%;
     height: 51px;
@@ -67,6 +67,12 @@ input{
     position: absolute;
     top: 51px;
     width: 100%;
-    background-color: yellow;
+    /* background-color: yellow; */
     height: 94%;
   }
+ 
+.Profilename {
+  position: absolute;
+  left: 0%;
+  top: -49%;
+}

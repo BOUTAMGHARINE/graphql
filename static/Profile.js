@@ -20,7 +20,6 @@ if (!token) {
   
   </div>
                  <div class="containere">
-                    <h2>Welcome</h2>
                     <div id="profile"></div>
                     <h3>Statistiques</h3>
                     <svg id="statsGraph" width="400" height="200"></svg>
@@ -40,9 +39,12 @@ if (!token) {
     
     const query = `{
         user {
-            
-            id
             login
+            firstName
+            lastName
+            totalUp
+            totalDown
+            auditRatio
         }
         transaction(where: { type: { _eq: "xp" } }) {
             amount
@@ -67,10 +69,11 @@ if (!token) {
 
     document.querySelector(".Profilename").innerHTML+=`<p><strong>${data.data.user[0].login}</strong></p>`
     console.log( document.querySelector(".Profilename"));
+    document.querySelector("#profile").innerHTML+=`<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
     
     
   //  displayProfile(data.data);
-    drawGraph(data.data.transaction);
+   // drawGraph(data.data.transaction);
 }
 
 function displayProfile(data) {
