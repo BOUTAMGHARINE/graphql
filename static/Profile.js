@@ -86,6 +86,10 @@ if (!token) {
                 }
             }
         }
+        skills: transaction(where: {type: {_like: "%skill%"}}) {
+        amount
+        type
+    }
     
     }`;
 
@@ -100,6 +104,9 @@ if (!token) {
 
     const data = await response.json();
     console.log(data.data);
+    console.log(data.data.USER_AUDITS[0].sucess.aggregate.count);
+    console.log(data.data.USER_AUDITS[0].failed.aggregate.count);
+    
     
     console.log(data.data.xp.aggregate.max.amount);
 
