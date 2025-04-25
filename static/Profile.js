@@ -117,6 +117,7 @@ if (!token) {
     document.querySelector("#profile").innerHTML+=`<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
     document.querySelector("#auditratio").innerHTML+=`<h2>audit ratio </h2> ${roundToOneDecimal(data.data.user[0].auditRatio)}`
     document.querySelector("#level").innerHTML+=`<h2> your level </h2> ${data.data.xp.aggregate.max.amount}`
+    createSvgPieChart(data.data.USER_AUDITS[0].sucess.aggregate.count,data.data.USER_AUDITS[0].failed.aggregate.count)
     
 
 
@@ -159,4 +160,101 @@ function logout() {
     localStorage.removeItem("token");
     navigateTo("/login")
 }
+function createSvgPieChart(value1, value2) {
+   
+
+
+  const values = [value1, value2]; // tes données
+  const colors = ["#4CAF50", "#FF0000"];
+  
+  const total = values.reduce((sum, v) => sum + v, 0);
+  const center = 250;
+  const radius = 100;
+  const strokeWidth = 50;
+  const circumference = 2 * Math.PI * radius;
+
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS, "svg");
+  svg.setAttribute("viewBox", "0 0 500 500");
+  svg.setAttribute("width", 500);
+  svg.setAttribute("height", 500);
+  svg.style.transform = "rotate(-90deg)"; // pour commencer en haut
+
+  let offset = 0;
+
+  values.forEach((value, i) => {
+    const percent = value / total;
+    const dash = percent * circumference;
+
+    // Créer un cercle pour chaque portion
+    const circle = document.createElementNS(svgNS, "circle");
+    circle.setAttribute("cx", center);
+    circle.setAttribute("cy", center);
+    circle.setAttribute("r", radius);
+    circle.setAttribute("fill", "none");
+    circle.setAttribute("stroke", colors[i]);
+    circle.setAttribute("stroke-width", strokeWidth);
+    circle.setAttribute("stroke-dasharray", `${dash} ${circumference}`);
+    circle.setAttribute("stroke-dashoffset", -offset);
+    
+    offset += dash;
+    
+    svg.appendChild(circle);
+
+    // Ajouter un texte pour le pourcentage
+    const text = document.createElementNS(svgNS, "text");
+    text.setAttribute("x", center + Math.cos((offset - dash / 2) / radius) * radius);
+    text.setAttribute("y", center + Math.sin((offset - dash / 2) / radius) * radius);
+    text.setAttribute("fill", "black");
+    text.setAttribute("font-size", "18");
+    text.setAttribute("text-anchor", "middle");
+    text.textContent = `${(percent * 100).toFixed(1)}%`;
+
+    svg.appendChild(text);
+  });
+  const centerText = document.createElementNS(svgNS, "text");
+centerText.setAttribute("x", center);
+centerText.setAttribute("y", center ); // ajustement vertical
+centerText.setAttribute("text-anchor", "middle"); // centré horizontalement
+centerText.setAttribute("font-size", "20");
+centerText.setAttribute("fill", "#333");
+centerText.textContent = `${total}audit`; // ou un label comme "Total"
+centerText.setAttribute("transform", `rotate(90, ${center}, ${center})`)
+
+ svg.appendChild(centerText);
+
+  // Ajouter le SVG dans le div
+  document.querySelector("#audit").appendChild(svg);
+  const legend = document.createElement("div");
+  legend.className="legend"
+legend.style.marginTop = "20px";
+legend.style.display = "flex";
+legend.style.justifyContent = "center";
+legend.style.gap = "20px";
+
+// Noms pour chaque couleur
+const labels = ["seccecf", "failaid"]; // même ordre que values/colors
+
+values.forEach((value, i) => {
+  const item = document.createElement("div");
+  item.style.display = "flex";
+  item.style.alignItems = "center";
+  item.style.gap = "5px";
+
+  const colorBox = document.createElement("div");
+  colorBox.style.width = "15px";
+  colorBox.style.height = "15px";
+  colorBox.style.backgroundColor = colors[i];
+
+  const label = document.createElement("span");
+  label.textContent = `${labels[i]} (${value})`;
+
+  item.appendChild(colorBox);
+  item.appendChild(label);
+  legend.appendChild(item);
+});
+
+document.querySelector("#audit").appendChild(legend);
+
+  }
 

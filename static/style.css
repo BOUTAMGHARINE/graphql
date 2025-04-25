@@ -76,3 +76,12 @@ input{
   left: 0%;
   top: -49%;
 }
+.legend {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap:20px;
+  width: 500px;
+  position: absolute;
+  bottom: 29%;
+}
