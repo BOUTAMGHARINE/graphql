@@ -31,6 +31,10 @@ if (!token) {
                      <section id="graphs">
                     <div id ="audit"></div>
                     <div id="skils"></div>
+                    <div id="skills">
+                    <svg id="skillsChart" width="800" height="500"></svg>
+
+                    </div>
                     </section>
                     <svg id="statsGraph" width="400" height="200"></svg>
                     
@@ -103,9 +107,10 @@ if (!token) {
     });
 
     const data = await response.json();
-    console.log(data.data);
-    console.log(data.data.USER_AUDITS[0].sucess.aggregate.count);
-    console.log(data.data.USER_AUDITS[0].failed.aggregate.count);
+    console.log(data.data.skills);
+    console.log(Sort(data.data.skills));
+    
+    
     
     
     console.log(data.data.xp.aggregate.max.amount);
@@ -118,7 +123,7 @@ if (!token) {
     document.querySelector("#auditratio").innerHTML+=`<h2>audit ratio </h2> ${roundToOneDecimal(data.data.user[0].auditRatio)}`
     document.querySelector("#level").innerHTML+=`<h2> your level </h2> ${data.data.xp.aggregate.max.amount}`
     createSvgPieChart(data.data.USER_AUDITS[0].sucess.aggregate.count,data.data.USER_AUDITS[0].failed.aggregate.count)
-    
+    createSvgRectangle(Sort(data.data.skills))
 
 
   
@@ -126,7 +131,20 @@ if (!token) {
   //  displayProfile(data.data);
    // drawGraph(data.data.transaction);
 }
+function Sort(data) {
+  const typeMap = {};
 
+  for (let i = 0; i < data.length; i++) {
+    const item = data[i];
+    const currentType = item.type;
+
+    if (!typeMap[currentType] || item.amount > typeMap[currentType].amount) {
+      typeMap[currentType] = item;
+    }
+  }
+
+  return Object.values(typeMap);
+}
 function displayProfile(data) {
     document.getElementById("profile").innerHTML = `
         <p><strong>Nom d'utilisateur :</strong> ${data.user[0].login}</p>
@@ -159,6 +177,71 @@ function drawGraph(transactions) {
 function logout() {
     localStorage.removeItem("token");
     navigateTo("/login")
+}
+function createSvgRectangle(data){
+
+  const svg = document.getElementById('skillsChart');
+  const barHeight = 25;
+  const barGap = 5;
+  const maxBarWidth = 600;
+  const labelOffset = 5;
+
+  const maxAmount = Math.max(...data.map(d => d.amount));
+
+  data.forEach((item, index) => {
+    const y = index * (barHeight + barGap);
+    const barWidth = (item.amount / maxAmount) * maxBarWidth;
+
+    // Barre
+    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect.setAttribute("x", 150);
+    rect.setAttribute("y", y);
+    rect.setAttribute("width", barWidth);
+    rect.setAttribute("height", barHeight);
+    rect.setAttribute("fill", "#3498db");
+    svg.appendChild(rect);
+
+    // Texte de type
+    const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    label.setAttribute("x", 0);
+    label.setAttribute("y", y + barHeight / 2 + 4);
+    label.textContent = item.type;
+    svg.appendChild(label);
+
+    // Texte de valeur
+    const valueText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    valueText.setAttribute("x", 160 + barWidth);
+    valueText.setAttribute("y", y + barHeight / 2 + 4);
+    valueText.textContent = item.amount;
+    svg.appendChild(valueText);
+  });
+
+  // Adapter la hauteur du SVG
+  svg.setAttribute("height", data.length * (barHeight + barGap));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 function createSvgPieChart(value1, value2) {
    
