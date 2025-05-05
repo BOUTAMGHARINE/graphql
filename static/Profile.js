@@ -52,50 +52,63 @@ if (!token) {
     
     
     const query = `{
-        user {
-            login
-            firstName
-            lastName
-            totalUp
-            totalDown
-            auditRatio
-        }
-         audit :transaction(where: { type: { _eq: "up" } }) {
-            amount
-        }
-        xp :transaction_aggregate(where: {type: {_eq: "level"}, event: {object: {name: {_eq: "Module"}}}}
-                                      order_by: {createdAt: desc}
-                                    ) {
-                                      aggregate {
-                                        max {
-                                          amount
-                                        }
-                                      }
-                                    }
-        transaction(where: { type: { _eq: "xp" } }) {
-            amount
-            createdAt
-        }
-          USER_AUDITS: 
-        user {
-            auditRatio
-            sucess: audits_aggregate(where: { closureType: { _eq: succeeded } }) {
-                aggregate {
-                    count
-                }
-            }
-            failed: audits_aggregate(where: { closureType: { _eq: failed } }) {
-                aggregate {
-                    count
-                }
-            }
-        }
-        skills: transaction(where: {type: {_like: "%skill%"}}) {
-        amount
-        type
+  user {
+    login
+    firstName
+    lastName
+    totalUp
+    totalDown
+    auditRatio
+    sucess: audits_aggregate(where: { closureType: { _eq: succeeded } }) {
+      aggregate {
+        count
+      }
     }
-    
-    }`;
+    failed: audits_aggregate(where: { closureType: { _eq: failed } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+
+  audit: transaction(where: { type: { _eq: "up" } }) {
+    amount
+  }
+
+  xp: transaction_aggregate(
+    where: {
+      type: { _eq: "level" }
+      event: { object: { name: { _eq: "Module" } } }
+    }
+    order_by: { createdAt: desc }
+  ) {
+    aggregate {
+      max {
+        amount
+      }
+    }
+  }
+
+  transaction(where: { type: { _eq: "xp" } }) {
+    amount
+    createdAt
+  }
+
+  skills: transaction(where: { type: { _like: "%skill%" } }) {
+    amount
+    type
+  }
+
+  project_xp: transaction(
+    where: { type: { _eq: "xp" }, eventId: { _eq: 41 } }
+    order_by: { createdAt: desc }
+  ) {
+    path
+    amount
+    createdAt
+  }
+}
+`;
 
     const response = await fetch("https://learn.zone01oujda.ma/api/graphql-engine/v1/graphql", {
         method: "POST",
@@ -107,13 +120,16 @@ if (!token) {
     });
 
     const data = await response.json();
-    console.log(data.data.skills);
-    console.log(Sort(data.data.skills));
+  console.log(data);
+  
     
     
     
     
-    console.log(data.data.xp.aggregate.max.amount);
+    console.log(data.data.user);
+    const Data = {
+      
+    }
 
     
 
@@ -122,7 +138,7 @@ if (!token) {
     document.querySelector("#profile").innerHTML+=`<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
     document.querySelector("#auditratio").innerHTML+=`<h2>audit ratio </h2> ${roundToOneDecimal(data.data.user[0].auditRatio)}`
     document.querySelector("#level").innerHTML+=`<h2> your level </h2> ${data.data.xp.aggregate.max.amount}`
-    createSvgPieChart(data.data.USER_AUDITS[0].sucess.aggregate.count,data.data.USER_AUDITS[0].failed.aggregate.count)
+    createSvgPieChart(data.USER_AUDITS[0].sucess.aggregate.count,data.data.USER_AUDITS[0].failed.aggregate.count)
     createSvgRectangle(Sort(data.data.skills))
 
 
@@ -212,41 +228,14 @@ function createSvgRectangle(data){
     const valueText = document.createElementNS("http://www.w3.org/2000/svg", "text");
     valueText.setAttribute("x", 160 + barWidth);
     valueText.setAttribute("y", y + barHeight / 2 + 4);
-    valueText.textContent = item.amount;
+    valueText.textContent = `${item.amount}%`;
     svg.appendChild(valueText);
   });
 
   // Adapter la hauteur du SVG
   svg.setAttribute("height", data.length * (barHeight + barGap));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 function createSvgPieChart(value1, value2) {
-   
-
-
   const values = [value1, value2]; // tes données
   const colors = ["#4CAF50", "#FF0000"];
   
