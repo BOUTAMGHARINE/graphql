@@ -78,7 +78,7 @@ if (!token) {
   xp: transaction_aggregate(
     where: {
       type: { _eq: "level" }
-      event: { object: { name: { _eq: "Module" } } }
+      event: { object: { name: { _eq: "Module" } } }  
     }
     order_by: { createdAt: desc }
   ) {
@@ -119,34 +119,30 @@ if (!token) {
         body: JSON.stringify({ query })
     });
 
-    const data = await response.json();
+  const data = await response.json();
   console.log(data);
   
-    
-    
-    
-    
-    console.log(data.data.user);
-    const Data = {
-      
-    }
-
-    
-
-    document.querySelector(".Profilename").innerHTML+=`<p><strong>${data.data.user[0].login}</strong></p>`
-    console.log( document.querySelector(".Profilename"));
-    document.querySelector("#profile").innerHTML+=`<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
-    document.querySelector("#auditratio").innerHTML+=`<h2>audit ratio </h2> ${roundToOneDecimal(data.data.user[0].auditRatio)}`
-    document.querySelector("#level").innerHTML+=`<h2> your level </h2> ${data.data.xp.aggregate.max.amount}`
-    createSvgPieChart(data.USER_AUDITS[0].sucess.aggregate.count,data.data.USER_AUDITS[0].failed.aggregate.count)
-    createSvgRectangle(Sort(data.data.skills))
-
-
+  console.log(cleanstr(data.data.project_xp[0].path))
+  console.log(cleanstr(data.data.project_xp[1].path))
+  console.log(cleanstr(data.data.project_xp[2].path))
   
-    
-  //  displayProfile(data.data);
-   // drawGraph(data.data.transaction);
+ 
+  document.querySelector(".Profilename").innerHTML+=`<p><strong>${data.data.user[0].login}</strong></p>`
+  document.querySelector("#profile").innerHTML+=`<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
+  document.querySelector("#auditratio").innerHTML+=`<h2>audit ratio </h2> ${roundToOneDecimal(data.data.user[0].auditRatio)}`
+  document.querySelector("#projects").innerHTML+=`<p> The Last three Validate Projects </p>${cleanstr(data.data.project_xp[0].path)}`
+  document.querySelector("#level").innerHTML+=`<h2> your level </h2> ${data.data.xp.aggregate.max.amount}`
+  createSvgPieChart(data.data.user[0].sucess.aggregate.count,data.data.user[0].failed.aggregate.count)
+  createSvgRectangle(Sort(data.data.skills))
+
 }
+
+
+function cleanstr (str){
+  return str.replace(/\/oujda\/module\//g, "")
+}
+   
+
 function Sort(data) {
   const typeMap = {};
 
