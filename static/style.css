@@ -85,3 +85,8 @@ input{
   position: absolute;
   bottom: 29%;
 }
+
+#logo {
+  height: 42px;
+  width: 68px;
+  }

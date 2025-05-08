@@ -15,7 +15,7 @@ if (!token) {
   const  div3 = document.getElementById("div")
   div3.innerHTML=""
   div3.innerHTML=`<div class="navbar">
-  <img src="./img/1697464140948.jpeg">
+  <img src="../static/img/1697464140948.jpeg" id="logo">
    <button class="btn-logout" >logout</button>
    <h1>
    <div class="Profilename"></div>
@@ -127,7 +127,6 @@ if (!token) {
   console.log(cleanstr(data.data.project_xp[2].path))
   
  
-  document.querySelector(".Profilename").innerHTML+=`<p><strong>${data.data.user[0].login}</strong></p>`
   document.querySelector("#profile").innerHTML+=`<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
   document.querySelector("#auditratio").innerHTML+=`<h2>audit ratio </h2> ${roundToOneDecimal(data.data.user[0].auditRatio)}`
   document.querySelector("#projects").innerHTML+=`<p> The Last three Validate Projects </p>${cleanstr(data.data.project_xp[0].path)}`

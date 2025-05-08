@@ -3,14 +3,9 @@ import { FetchProfile} from "./Profile.js";
 import  {PageNotfound} from "./pagenotfound.js"
 
 
-
- export const navigateTo = url =>{
-  history.pushState(null,null,url);
-  router()
-};
-
+console.log(location.pathname);
 const router = async() => {
-  console.log("HI");
+  debugger
   
 
 
@@ -25,6 +20,12 @@ const router = async() => {
       }
   })
   let match = find.find(findss => findss.isMatch)
+  if (!match){
+    
+  }
+  
+  
+
   
   if (!match) {
       match ={
@@ -38,6 +39,14 @@ const router = async() => {
 
   
 } 
+
+ export const navigateTo = url =>{
+  history.pushState(null,null,url);
+  router()
+};
+navigateTo("/profile")
+
+
 router();
  const item = localStorage.getItem('jwt')
  
