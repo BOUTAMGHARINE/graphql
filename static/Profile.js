@@ -3,18 +3,21 @@ import { navigateTo } from "./index.js";
 
 
 export async function FetchProfile() {
-    const token = localStorage.getItem("jwt");
-    console.log(token);
-    
 
-if (!token) {
+  console.log("hi");
+  const token = localStorage.getItem("jwt");
+
+
+  if (!token) {
 
     navigateTo("/login")
-}
+    return
+  }
 
-  const  div3 = document.getElementById("div")
-  div3.innerHTML=""
-  div3.innerHTML=`<div class="navbar">
+  const div3 = document.getElementById("div")
+  div3.style.maxWidth = ""
+  div3.innerHTML = ""
+  div3.innerHTML = `<div class="navbar">
   <img src="../static/img/1697464140948.jpeg" id="logo">
    <button class="btn-logout" >logout</button>
    <h1>
@@ -43,15 +46,16 @@ if (!token) {
 
 
 
-    const logout_button = document.querySelector(".btn-logout")
-      
-    logout_button.addEventListener("click",()=>{
-        logout();
+  const logout_button = document.querySelector(".btn-logout")
 
-    })
-    
-    
-    const query = `{
+  logout_button.addEventListener("click", () => {
+    div3.innerHTML = ""
+    logout();
+
+  })
+
+
+  const query = `{
   user {
     login
     firstName
@@ -110,37 +114,37 @@ if (!token) {
 }
 `;
 
-    const response = await fetch("https://learn.zone01oujda.ma/api/graphql-engine/v1/graphql", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ query })
-    });
+  const response = await fetch("https://learn.zone01oujda.ma/api/graphql-engine/v1/graphql", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ query })
+  });
 
   const data = await response.json();
   console.log(data);
-  
+
   console.log(cleanstr(data.data.project_xp[0].path))
   console.log(cleanstr(data.data.project_xp[1].path))
   console.log(cleanstr(data.data.project_xp[2].path))
-  
- 
-  document.querySelector("#profile").innerHTML+=`<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
-  document.querySelector("#auditratio").innerHTML+=`<h2>audit ratio </h2> ${roundToOneDecimal(data.data.user[0].auditRatio)}`
-  document.querySelector("#projects").innerHTML+=`<p> The Last three Validate Projects </p>${cleanstr(data.data.project_xp[0].path)}`
-  document.querySelector("#level").innerHTML+=`<h2> your level </h2> ${data.data.xp.aggregate.max.amount}`
-  createSvgPieChart(data.data.user[0].sucess.aggregate.count,data.data.user[0].failed.aggregate.count)
+
+
+  document.querySelector("#profile").innerHTML = `<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
+  document.querySelector("#auditratio").innerHTML = `<h2>audit ratio </h2> ${roundToOneDecimal(data.data.user[0].auditRatio)}`
+  document.querySelector("#projects").innerHTML = `<p> The Last three Validate Projects </p>${cleanstr(data.data.project_xp[0].path)}`
+  document.querySelector("#level").innerHTML = `<h2> your level </h2> ${data.data.xp.aggregate.max.amount}`
+  createSvgPieChart(data.data.user[0].sucess.aggregate.count, data.data.user[0].failed.aggregate.count)
   createSvgRectangle(Sort(data.data.skills))
 
 }
 
 
-function cleanstr (str){
+function cleanstr(str) {
   return str.replace(/\/oujda\/module\//g, "")
 }
-   
+
 
 function Sort(data) {
   const typeMap = {};
@@ -157,39 +161,39 @@ function Sort(data) {
   return Object.values(typeMap);
 }
 function displayProfile(data) {
-    document.getElementById("profile").innerHTML = `
+  document.getElementById("profile").innerHTML = `
         <p><strong>Nom d'utilisateur :</strong> ${data.user[0].login}</p>
         <p><strong>ID :</strong> ${data.user[0].id}</p>
     `;
 }
 function roundToOneDecimal(num) {
-    return Math.round(num * 10) / 10;
-  }
-  
+  return Math.round(num * 10) / 10;
+}
+
 
 function drawGraph(transactions) {
-    const svg = document.getElementById("statsGraph");
-    const maxXP = Math.max(...transactions.map(t => t.amount));
+  const svg = document.getElementById("statsGraph");
+  const maxXP = Math.max(...transactions.map(t => t.amount));
 
-    transactions.forEach((t, index) => {
-        const barHeight = (t.amount / maxXP) * 100;
-        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  transactions.forEach((t, index) => {
+    const barHeight = (t.amount / maxXP) * 100;
+    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 
-        rect.setAttribute("x", index * 40);
-        rect.setAttribute("y", 100 - barHeight);
-        rect.setAttribute("width", 30);
-        rect.setAttribute("height", barHeight);
-        rect.setAttribute("fill", "blue");
+    rect.setAttribute("x", index * 40);
+    rect.setAttribute("y", 100 - barHeight);
+    rect.setAttribute("width", 30);
+    rect.setAttribute("height", barHeight);
+    rect.setAttribute("fill", "blue");
 
-        svg.appendChild(rect);
-    });
+    svg.appendChild(rect);
+  });
 }
 
 function logout() {
-    localStorage.removeItem("token");
-    navigateTo("/login")
+  localStorage.removeItem("jwt");
+  navigateTo("/login")
 }
-function createSvgRectangle(data){
+function createSvgRectangle(data) {
 
   const svg = document.getElementById('skillsChart');
   const barHeight = 25;
@@ -231,9 +235,11 @@ function createSvgRectangle(data){
   svg.setAttribute("height", data.length * (barHeight + barGap));
 }
 function createSvgPieChart(value1, value2) {
+  console.log("fff");
+
   const values = [value1, value2]; // tes données
   const colors = ["#4CAF50", "#FF0000"];
-  
+
   const total = values.reduce((sum, v) => sum + v, 0);
   const center = 250;
   const radius = 100;
@@ -263,9 +269,9 @@ function createSvgPieChart(value1, value2) {
     circle.setAttribute("stroke-width", strokeWidth);
     circle.setAttribute("stroke-dasharray", `${dash} ${circumference}`);
     circle.setAttribute("stroke-dashoffset", -offset);
-    
+
     offset += dash;
-    
+
     svg.appendChild(circle);
 
     // Ajouter un texte pour le pourcentage
@@ -280,48 +286,48 @@ function createSvgPieChart(value1, value2) {
     svg.appendChild(text);
   });
   const centerText = document.createElementNS(svgNS, "text");
-centerText.setAttribute("x", center);
-centerText.setAttribute("y", center ); // ajustement vertical
-centerText.setAttribute("text-anchor", "middle"); // centré horizontalement
-centerText.setAttribute("font-size", "20");
-centerText.setAttribute("fill", "#333");
-centerText.textContent = `${total}audit`; // ou un label comme "Total"
-centerText.setAttribute("transform", `rotate(90, ${center}, ${center})`)
+  centerText.setAttribute("x", center);
+  centerText.setAttribute("y", center); // ajustement vertical
+  centerText.setAttribute("text-anchor", "middle"); // centré horizontalement
+  centerText.setAttribute("font-size", "20");
+  centerText.setAttribute("fill", "#333");
+  centerText.textContent = `${total}audit`; // ou un label comme "Total"
+  centerText.setAttribute("transform", `rotate(90, ${center}, ${center})`)
 
- svg.appendChild(centerText);
+  svg.appendChild(centerText);
 
   // Ajouter le SVG dans le div
   document.querySelector("#audit").appendChild(svg);
   const legend = document.createElement("div");
-  legend.className="legend"
-legend.style.marginTop = "20px";
-legend.style.display = "flex";
-legend.style.justifyContent = "center";
-legend.style.gap = "20px";
+  legend.className = "legend"
+  legend.style.marginTop = "20px";
+  legend.style.display = "flex";
+  legend.style.justifyContent = "center";
+  legend.style.gap = "20px";
 
-// Noms pour chaque couleur
-const labels = ["seccecf", "failaid"]; // même ordre que values/colors
+  // Noms pour chaque couleur
+  const labels = ["seccecf", "failaid"]; // même ordre que values/colors
 
-values.forEach((value, i) => {
-  const item = document.createElement("div");
-  item.style.display = "flex";
-  item.style.alignItems = "center";
-  item.style.gap = "5px";
+  values.forEach((value, i) => {
+    const item = document.createElement("div");
+    item.style.display = "flex";
+    item.style.alignItems = "center";
+    item.style.gap = "5px";
 
-  const colorBox = document.createElement("div");
-  colorBox.style.width = "15px";
-  colorBox.style.height = "15px";
-  colorBox.style.backgroundColor = colors[i];
+    const colorBox = document.createElement("div");
+    colorBox.style.width = "15px";
+    colorBox.style.height = "15px";
+    colorBox.style.backgroundColor = colors[i];
 
-  const label = document.createElement("span");
-  label.textContent = `${labels[i]} (${value})`;
+    const label = document.createElement("span");
+    label.textContent = `${labels[i]} (${value})`;
 
-  item.appendChild(colorBox);
-  item.appendChild(label);
-  legend.appendChild(item);
-});
+    item.appendChild(colorBox);
+    item.appendChild(label);
+    legend.appendChild(item);
+  });
 
-document.querySelector("#audit").appendChild(legend);
+  document.querySelector("#audit").appendChild(legend);
 
-  }
+}
 

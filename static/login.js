@@ -2,6 +2,7 @@ import { navigateTo } from "./index.js"
 
 export function CreatloginePage() {
     const onlydiv = document.getElementById("div")
+    onlydiv.style.maxWidth = "400px"
     onlydiv.innerHTML=""
     onlydiv.innerHTML =`  <div class="header"> <h1>Welcomme to GraphQL</h1></div>
 
