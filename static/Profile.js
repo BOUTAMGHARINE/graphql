@@ -133,7 +133,12 @@ export async function FetchProfile() {
 
   document.querySelector("#profile").innerHTML = `<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
   document.querySelector("#auditratio").innerHTML = `<h2>audit ratio </h2> ${roundToOneDecimal(data.data.user[0].auditRatio)}`
-  document.querySelector("#projects").innerHTML = `<p> The Last three Validate Projects </p>${cleanstr(data.data.project_xp[0].path)}`
+  document.querySelector("#projects").innerHTML = `<p> The Last three Validate Projects </p>
+  <ul>
+  <li>${cleanstr(data.data.project_xp[0].path)}</li>
+  <li>${cleanstr(data.data.project_xp[1].path)}</li>
+  <li>${cleanstr(data.data.project_xp[2].path)}</li>
+  </ul>`
   document.querySelector("#level").innerHTML = `<h2> your level </h2> ${data.data.xp.aggregate.max.amount}`
   createSvgPieChart(data.data.user[0].sucess.aggregate.count, data.data.user[0].failed.aggregate.count)
   createSvgRectangle(Sort(data.data.skills))
