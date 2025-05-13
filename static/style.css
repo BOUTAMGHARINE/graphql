@@ -1,4 +1,4 @@
-/* Reset default browser styles */
+Reset default browser styles
 * {
   box-sizing: border-box;
   margin: 0;
@@ -100,6 +100,14 @@ h1 {
 
 /* Legend styling */
 .legend {
+position: absolute;
+left: 214px;
+bottom: 140px;
+
+margin-top: -35px;
+display: flex;
+justify-content: center;
+gap: 18px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -247,6 +255,10 @@ input[type="password"]:focus {
 
   .button {
     font-size: 14px;
+  }
+  .legend {
+    position: absolute;
+    left: 100px;
   }
 }
 
