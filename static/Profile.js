@@ -240,7 +240,6 @@ function createSvgRectangle(data) {
   svg.setAttribute("height", data.length * (barHeight + barGap));
 }
 function createSvgPieChart(value1, value2) {
-  console.log("fff");
 
   const values = [value1, value2]; // tes données
   const colors = ["#4CAF50", "#FF0000"];
@@ -343,17 +342,14 @@ function createSvgPieChart(value1, value2) {
              var textElement = document.querySelector('.text');
              var totalaudit = document.querySelector('.total');
             if (window.innerWidth <= 480) {
+                totalaudit.setAttribute('x', 150);
                 textElement.setAttribute('y', 120);
             } else {
                 textElement.setAttribute('y', '50%');
+                totalaudit.setAttribute('x', 250);
             }
-            if (window.innerWidth <= 480) {
-                totalaudit.setAttribute('y', 120);
-            } else {
-                totalaudit.setAttribute('y', '50%');
-            }
+           
         }
 
         
        
-total
