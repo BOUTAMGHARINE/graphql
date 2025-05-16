@@ -43,7 +43,7 @@ export async function FetchProfile() {
                     
                         </div>`
 
-
+   window.addEventListener('resize', adjustTextPosition);
 
 
   const logout_button = document.querySelector(".btn-logout")
@@ -280,11 +280,13 @@ function createSvgPieChart(value1, value2) {
     svg.appendChild(circle);
 
     // Ajouter un texte pour le pourcentage
+  
     const text = document.createElementNS(svgNS, "text");
     text.setAttribute("x", center + Math.cos((offset - dash / 2) / radius) * radius);
     text.setAttribute("y", center + Math.sin((offset - dash / 2) / radius) * radius);
     text.setAttribute("fill", "black");
     text.setAttribute("font-size", "18");
+    text.classList="text"
     text.setAttribute("text-anchor", "middle");
     text.textContent = `${(percent * 100).toFixed(1)}%`;
 
@@ -292,6 +294,7 @@ function createSvgPieChart(value1, value2) {
   });
   const centerText = document.createElementNS(svgNS, "text");
   centerText.setAttribute("x", center);
+  centerText.classList="total"
   centerText.setAttribute("y", center); // ajustement vertical
   centerText.setAttribute("text-anchor", "middle"); // centré horizontalement
   centerText.setAttribute("font-size", "20");
@@ -336,3 +339,21 @@ function createSvgPieChart(value1, value2) {
 
 }
 
+        function adjustTextPosition() {
+             var textElement = document.querySelector('.text');
+             var totalaudit = document.querySelector('.total');
+            if (window.innerWidth <= 480) {
+                textElement.setAttribute('y', 120);
+            } else {
+                textElement.setAttribute('y', '50%');
+            }
+            if (window.innerWidth <= 480) {
+                totalaudit.setAttribute('y', 120);
+            } else {
+                totalaudit.setAttribute('y', '50%');
+            }
+        }
+
+        
+       
+total

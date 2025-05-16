@@ -156,6 +156,14 @@ gap: 18px;
     flex-direction: column;
     align-items: flex-start;
   }
+  circle{
+    cy: 150;
+  }
+  text{
+    cy:150;
+
+  }
+
 
   h1 {
     text-align: left;
