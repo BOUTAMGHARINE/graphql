@@ -285,7 +285,7 @@ function createSvgPieChart(value1, value2) {
     text.setAttribute("y", center + Math.sin((offset - dash / 2) / radius) * radius);
     text.setAttribute("fill", "black");
     text.setAttribute("font-size", "18");
-    text.classList="text"
+    text.classList=`text${i}`
     text.setAttribute("text-anchor", "middle");
     text.textContent = `${(percent * 100).toFixed(1)}%`;
 
@@ -339,14 +339,17 @@ function createSvgPieChart(value1, value2) {
 }
 
         function adjustTextPosition() {
-             var textElement = document.querySelector('.text');
+             var textElement0 = document.querySelector('.text0');
              var totalaudit = document.querySelector('.total');
+             var textElement1 = document.querySelector('.text1');
             if (window.innerWidth <= 480) {
                 totalaudit.setAttribute('x', 150);
-                textElement.setAttribute('y', 120);
+                textElement0.setAttribute('y', 120);
+                textElement1.setAttribute('y', 120);
             } else {
-                textElement.setAttribute('y', '50%');
+                textElement0.setAttribute('y', '50%');
                 totalaudit.setAttribute('x', 250);
+               textElement0.setAttribute('y', '50%');
             }
            
         }
