@@ -1,6 +1,14 @@
 import { navigateTo } from "./index.js"
 
 export function CreatloginePage() {
+  const token = localStorage.getItem("jwt");
+
+
+  if (token) {
+
+    navigateTo("/Profile")
+    return
+  }
     const onlydiv = document.getElementById("div")
     onlydiv.style.maxWidth = "400px"
     onlydiv.innerHTML=""
@@ -25,6 +33,7 @@ export function CreatloginePage() {
 login()
 }
 export function login(){
+   
     document.getElementById('loginForm').addEventListener('submit', function(event) {
         event.preventDefault();  
         const usernameOrEmail = document.getElementById('usernameOrEmail').value;

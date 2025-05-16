@@ -4,13 +4,27 @@ import { FetchProfile } from "./Profile.js";
 import { PageNotfound } from "./pagenotfound.js"
 
 
+
+
+
+
+
+
+
+
+export const navigateTo = url => {
+  history.pushState(null, null, url);
+  router()
+};
+
 console.log(location.pathname);
 const router = async () => {
   
 
   const routes = [
     { path: "/login", view: CreatloginePage },
-    { path: "/profile", view: FetchProfile }
+    { path: "/profile", view: FetchProfile },
+    { path: "/", view: FetchProfile }
   ]
   let find = routes.map(route => {
     return {
@@ -35,18 +49,6 @@ const router = async () => {
 
 }
 router()
-
-export const navigateTo = url => {
-  history.pushState(null, null, url);
-  router()
-};
-
-const item = localStorage.getItem('jwt')
-
-
-if (!item) {
-  navigateTo("/login")
-} 
 
 
 

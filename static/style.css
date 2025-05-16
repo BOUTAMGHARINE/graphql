@@ -247,15 +247,19 @@ input[type="password"]:focus {
 
 /* Error message */
 #error {
+  position: relative;
   color: #e74c3c;
   font-size: 14px;
   min-height: 18px;
   display: block;
+  top:-14%;
 }
 
 /* Button styling */
 .button {
   padding: 12px;
+  margin :-65px 0px 0px 0px;
+
   background-color: #3498db;
   color: white;
   border: none;
