@@ -15,13 +15,15 @@ func main() {
 
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+
 		http.ServeFile(w, r, "./templates/index.html")
 	})
-	fmt.Println("server runing at http://localhost:8080")
+	
 
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		fmt.Println(err, "we can't serve")
 		return
 	}
+	fmt.Println("server runing at http://localhost:8080")
 }

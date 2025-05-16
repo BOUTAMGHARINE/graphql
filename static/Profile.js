@@ -4,7 +4,6 @@ import { navigateTo } from "./index.js";
 
 export async function FetchProfile() {
 
-  console.log("hi");
   const token = localStorage.getItem("jwt");
 
 
@@ -349,7 +348,7 @@ function createSvgPieChart(value1, value2) {
             } else {
                 textElement0.setAttribute('y', '50%');
                 totalaudit.setAttribute('x', 250);
-               textElement0.setAttribute('y', '50%');
+                textElement1.setAttribute('y',210)
             }
            
         }

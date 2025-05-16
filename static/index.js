@@ -19,7 +19,7 @@ const router = async () => {
     }
   })
   let match = find.find(findss => findss.isMatch)
-  console.log(match);
+  console.log(match,"123");
   
 
   if (!match) {
@@ -34,6 +34,7 @@ const router = async () => {
 
 
 }
+router()
 
 export const navigateTo = url => {
   history.pushState(null, null, url);
@@ -42,12 +43,10 @@ export const navigateTo = url => {
 
 const item = localStorage.getItem('jwt')
 
+
 if (!item) {
   navigateTo("/login")
-} else {
-  navigateTo("/profile")
-}
-
+} 
 
 
 

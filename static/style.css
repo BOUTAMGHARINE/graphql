@@ -149,6 +149,9 @@ gap: 18px;
   #text, #graphs {
     flex: 1 1 48%;
   }
+  #skills{
+    width: 800px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -171,13 +174,10 @@ gap: 18px;
 
   .btn-logout {
     align-self: flex-end;
-    left: 300px;
+    left: 317px;
   }
 
-  #skillsChart {
-    width: 100% !important;
-    height: auto !important;
-  }
+
   #audit{
     width: 400px;
   }

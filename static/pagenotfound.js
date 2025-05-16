@@ -1,5 +1,6 @@
 import { navigateTo } from "./index.js";
 export function PageNotfound() {
+  debugger
   console.log("hi");
   
     const div2 = document.getElementById("div")
@@ -18,7 +19,7 @@ export function PageNotfound() {
   document.querySelector(".go-back-error").addEventListener("click",(e)=>{
     e.preventDefault();
      
-      navigateTo("/login");
+      navigateTo("/profile");
 
    })
   }
