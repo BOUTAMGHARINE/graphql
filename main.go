@@ -7,14 +7,14 @@ import (
 )
 
 func main() {
-	if _, err := os.Stat("./templates/index.html"); os.IsNotExist(err) {
-		fmt.Println("Le fichier n'existe pas.")
+	if _, err := os.Stat("index.html"); os.IsNotExist(err) {
+		fmt.Println("The file does not exist.")
 		return
 	}
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "./templates/index.html")
+		http.ServeFile(w, r, "index.html")
 	})
 	fmt.Println("server runing at http://localhost:8080")
 
