@@ -1,4 +1,5 @@
-import { navigateTo } from "./index.js"
+// import { navigateTo } from "./index.js"
+import { FetchProfile } from "./Profile.js";
 
 
 
@@ -9,8 +10,8 @@ export function CreatloginePage() {
 
 
   if (token) {
-
-    navigateTo("/Profile")
+    FetchProfile()
+    // navigateTo("/Profile")
     return
   }
   const onlydiv = document.getElementById("div")
@@ -70,8 +71,8 @@ export function login() {
 
 
         localStorage.setItem('jwt', data);
-
-        navigateTo("/profile")
+        FetchProfile()
+        // navigateTo("/profile")
 
       })
       .catch(error => {

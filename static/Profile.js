@@ -1,11 +1,12 @@
-import { navigateTo } from "./index.js";
+// import { navigateTo } from "./index.js";
+import { CreatloginePage } from "./login.js";
 
 
 
 export async function FetchProfile() {
 
   const token = localStorage.getItem("jwt");
- 
+
 
   const div3 = document.getElementById("div")
   div3.style.maxWidth = ""
@@ -118,7 +119,8 @@ export async function FetchProfile() {
   }
   if (data.errors) {
     localStorage.removeItem("jwt");
-    navigateTo("/login")
+    CreatloginePage()
+    // navigateTo("/login")
   } else {
     console.log(data);
 
@@ -168,7 +170,8 @@ function roundToOneDecimal(num) {
 
 function logout() {
   localStorage.removeItem("jwt");
-  navigateTo("/login")
+  CreatloginePage()
+  // navigateTo("/login")
 }
 function createSvgRectangle(data) {
 

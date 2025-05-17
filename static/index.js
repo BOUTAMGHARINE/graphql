@@ -1,7 +1,13 @@
 
 import { CreatloginePage } from "./login.js";
 import { FetchProfile } from "./Profile.js";
-import { PageNotfound } from "./pagenotfound.js"
+// import { PageNotfound } from "./pagenotfound.js"
+
+document.addEventListener("DOMContentLoaded", () =>  {
+  const jwt = localStorage.getItem("jwt")
+  if (jwt) FetchProfile()
+  else CreatloginePage()
+})
 
 
 
@@ -10,44 +16,43 @@ import { PageNotfound } from "./pagenotfound.js"
 
 
 
+// export const navigateTo = url => {
+  // history.pushState(null, null, url);
+  // router()
+// };
 
 
-export const navigateTo = url => {
-  history.pushState(null, null, url);
-  router()
-};
-
-const router = async () => {
+// const router = async () => {
   
 
-  const routes = [
-    { path: "/login", view: CreatloginePage },
-    { path: "/profile", view: FetchProfile },
-    { path: "/index.html", view: CreatloginePage}
-  ]
-  let find = routes.map(route => {
-    return {
-      route: route,
-      isMatch: location.pathname === route.path
-    }
-  })
-  let match = find.find(findss => findss.isMatch)
+//   const routes = [
+//     { path: "/login", view: CreatloginePage },
+//     { path: "/profile", view: FetchProfile },
+//     { path: "/index.html", view: CreatloginePage}
+//   ]
+//   let find = routes.map(route => {
+//     return {
+//       route: route,
+//       isMatch: location.pathname === route.path
+//     }
+//   })
+//   let match = find.find(findss => findss.isMatch)
   
 
-  if (!match) {
-    match = {
-      route: { path: location.pathname, view: PageNotfound },
-      isMatch: true
-    }
-  }
+//   if (!match) {
+//     match = {
+//       route: { path: location.pathname, view: PageNotfound },
+//       isMatch: true
+//     }
+//   }
 
 
-  match.route.view();
+//   match.route.view();
 
 
-}
+// }
 
-router()
+// router()
 
 
 
