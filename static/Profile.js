@@ -153,37 +153,17 @@ function Sort(data) {
       typeMap[currentType] = item;
     }
   }
+  
 
   return Object.values(typeMap);
 }
-function displayProfile(data) {
-  document.getElementById("profile").innerHTML = `
-        <p><strong>Nom d'utilisateur :</strong> ${data.user[0].login}</p>
-        <p><strong>ID :</strong> ${data.user[0].id}</p>
-    `;
-}
+
 function roundToOneDecimal(num) {
   return Math.round(num * 10) / 10;
 }
 
 
-function drawGraph(transactions) {
-  const svg = document.getElementById("statsGraph");
-  const maxXP = Math.max(...transactions.map(t => t.amount));
 
-  transactions.forEach((t, index) => {
-    const barHeight = (t.amount / maxXP) * 100;
-    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-
-    rect.setAttribute("x", index * 40);
-    rect.setAttribute("y", 100 - barHeight);
-    rect.setAttribute("width", 30);
-    rect.setAttribute("height", barHeight);
-    rect.setAttribute("fill", "blue");
-
-    svg.appendChild(rect);
-  });
-}
 
 function logout() {
   localStorage.removeItem("jwt");
