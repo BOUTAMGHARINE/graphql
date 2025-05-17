@@ -175,7 +175,6 @@ function createSvgRectangle(data) {
   const barHeight = 25;
   const barGap = 5;
   const maxBarWidth = 600;
-  const labelOffset = 5;
 
   const maxAmount = Math.max(...data.map(d => d.amount));
 
@@ -284,7 +283,7 @@ function createSvgPieChart(value1, value2) {
   legend.style.gap = "20px";
 
   // Noms pour chaque couleur
-  const labels = ["seccecf", "failaid"]; // même ordre que values/colors
+  const labels = ["seccecf", "failaid"]; 
 
   values.forEach((value, i) => {
     const item = document.createElement("div");

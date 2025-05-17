@@ -1,6 +1,5 @@
 import { navigateTo } from "./index.js";
 export function PageNotfound() {
-  console.log("hi");
   
     const div2 = document.getElementById("div")
     div2.innerHTML=""
