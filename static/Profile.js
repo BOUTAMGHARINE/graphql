@@ -75,9 +75,7 @@ export async function FetchProfile() {
     }
   }
 
-  audit: transaction(where: { type: { _eq: "up" } }) {
-    amount
-  }
+
 
   xp: transaction_aggregate(
     where: {
@@ -93,10 +91,7 @@ export async function FetchProfile() {
     }
   }
 
-  transaction(where: { type: { _eq: "xp" } }) {
-    amount
-    createdAt
-  }
+  
 
   skills: transaction(where: { type: { _like: "%skill%" } }) {
     amount
@@ -125,7 +120,8 @@ export async function FetchProfile() {
 
   const data = await response.json();
   if (data){
-  document.querySelector("#profile").innerHTML = `<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
+
+document.querySelector("#profile").innerHTML = `<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
   document.querySelector("#auditratio").innerHTML = `<h2>Audits ratio </h2>${roundToOneDecimal(data.data.user[0].auditRatio)}`
   document.querySelector("#projects").innerHTML = `<h2> The Last Three Validated Projects</h2>
   <ul>
