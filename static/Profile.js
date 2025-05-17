@@ -124,13 +124,7 @@ export async function FetchProfile() {
   });
 
   const data = await response.json();
-  console.log(data);
-
-  console.log(cleanstr(data.data.project_xp[0].path))
-  console.log(cleanstr(data.data.project_xp[1].path))
-  console.log(cleanstr(data.data.project_xp[2].path))
-
-
+  if (data){
   document.querySelector("#profile").innerHTML = `<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
   document.querySelector("#auditratio").innerHTML = `<h2>Audits ratio </h2>${roundToOneDecimal(data.data.user[0].auditRatio)}`
   document.querySelector("#projects").innerHTML = `<h2> The Last Three Validated Projects</h2>
@@ -142,6 +136,7 @@ export async function FetchProfile() {
   document.querySelector("#level").innerHTML = `<h2>Current level</h2>${data.data.xp.aggregate.max.amount}`
   createSvgPieChart(data.data.user[0].sucess.aggregate.count, data.data.user[0].failed.aggregate.count)
   createSvgRectangle(Sort(data.data.skills))
+  }
 
 }
 

@@ -32,7 +32,6 @@ const router = async () => {
     }
   })
   let match = find.find(findss => findss.isMatch)
-  console.log(match,"123");
   
 
   if (!match) {
