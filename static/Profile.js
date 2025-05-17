@@ -1,18 +1,11 @@
 import { navigateTo } from "./index.js";
-import { jwt } from "./login.js";
 
 
 
 export async function FetchProfile() {
 
   const token = localStorage.getItem("jwt");
-
-
-  if (!token || token !== jwt) {
-
-    navigateTo("/login")
-    return
-  }
+ 
 
   const div3 = document.getElementById("div")
   div3.style.maxWidth = ""
@@ -43,7 +36,7 @@ export async function FetchProfile() {
                     
                         </div>`
 
-   window.addEventListener('resize', adjustTextPosition);
+  window.addEventListener('resize', adjustTextPosition);
 
 
   const logout_button = document.querySelector(".btn-logout")
@@ -119,19 +112,27 @@ export async function FetchProfile() {
   });
 
   const data = await response.json();
-  if (data){
+  if (!response.ok) {
+    console.log("data", data);
+    return
+  }
+  if (data.errors) {
+    localStorage.removeItem("jwt");
+    navigateTo("/login")
+  } else {
+    console.log(data);
 
-document.querySelector("#profile").innerHTML = `<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
-  document.querySelector("#auditratio").innerHTML = `<h2>Audits ratio </h2>${roundToOneDecimal(data.data.user[0].auditRatio)}`
-  document.querySelector("#projects").innerHTML = `<h2> The Last Three Validated Projects</h2>
+    document.querySelector("#profile").innerHTML = `<p><strong>Welcome, ${data.data.user[0].firstName} ${data.data.user[0].lastName}</strong></p>`
+    document.querySelector("#auditratio").innerHTML = `<h2>Audits ratio </h2>${roundToOneDecimal(data.data.user[0].auditRatio)}`
+    document.querySelector("#projects").innerHTML = `<h2> The Last Three Validated Projects</h2>
   <ul>
   <li>${cleanstr(data.data.project_xp[0].path)}</li>
   <li>${cleanstr(data.data.project_xp[1].path)}</li>
   <li>${cleanstr(data.data.project_xp[2].path)}</li>
   </ul>`
-  document.querySelector("#level").innerHTML = `<h2>Current level</h2>${data.data.xp.aggregate.max.amount}`
-  createSvgPieChart(data.data.user[0].sucess.aggregate.count, data.data.user[0].failed.aggregate.count)
-  createSvgRectangle(Sort(data.data.skills))
+    document.querySelector("#level").innerHTML = `<h2>Current level</h2>${data.data.xp.aggregate.max.amount}`
+    createSvgPieChart(data.data.user[0].sucess.aggregate.count, data.data.user[0].failed.aggregate.count)
+    createSvgRectangle(Sort(data.data.skills))
   }
 
 }
@@ -153,7 +154,7 @@ function Sort(data) {
       typeMap[currentType] = item;
     }
   }
-  
+
 
   return Object.values(typeMap);
 }
@@ -249,13 +250,13 @@ function createSvgPieChart(value1, value2) {
     svg.appendChild(circle);
 
     // Ajouter un texte pour le pourcentage
-  
+
     const text = document.createElementNS(svgNS, "text");
     text.setAttribute("x", center + Math.cos((offset - dash / 2) / radius) * radius);
     text.setAttribute("y", center + Math.sin((offset - dash / 2) / radius) * radius);
     text.setAttribute("fill", "black");
     text.setAttribute("font-size", "18");
-    text.classList=`text${i}`
+    text.classList = `text${i}`
     text.setAttribute("text-anchor", "middle");
     text.textContent = `${(percent * 100).toFixed(1)}%`;
 
@@ -263,7 +264,7 @@ function createSvgPieChart(value1, value2) {
   });
   const centerText = document.createElementNS(svgNS, "text");
   centerText.setAttribute("x", center);
-  centerText.classList="total"
+  centerText.classList = "total"
   centerText.setAttribute("y", center); // ajustement vertical
   centerText.setAttribute("text-anchor", "middle"); // centré horizontalement
   centerText.setAttribute("font-size", "20");
@@ -283,7 +284,7 @@ function createSvgPieChart(value1, value2) {
   legend.style.gap = "20px";
 
   // Noms pour chaque couleur
-  const labels = ["seccecf", "failaid"]; 
+  const labels = ["seccecf", "failaid"];
 
   values.forEach((value, i) => {
     const item = document.createElement("div");
@@ -308,21 +309,21 @@ function createSvgPieChart(value1, value2) {
 
 }
 
-        function adjustTextPosition() {
-             var textElement0 = document.querySelector('.text0');
-             var totalaudit = document.querySelector('.total');
-             var textElement1 = document.querySelector('.text1');
-            if (window.innerWidth <= 480) {
-                totalaudit.setAttribute('x', 150);
-                textElement0.setAttribute('y', 120);
-                textElement1.setAttribute('y', 120);
-            } else {
-                textElement0.setAttribute('y', '50%');
-                totalaudit.setAttribute('x', 250);
-                textElement1.setAttribute('y',210)
-            }
-           
-        }
+function adjustTextPosition() {
+  var textElement0 = document.querySelector('.text0');
+  var totalaudit = document.querySelector('.total');
+  var textElement1 = document.querySelector('.text1');
+  if (window.innerWidth <= 480) {
+    totalaudit.setAttribute('x', 150);
+    textElement0.setAttribute('y', 120);
+    textElement1.setAttribute('y', 120);
+  } else {
+    textElement0.setAttribute('y', '50%');
+    totalaudit.setAttribute('x', 250);
+    textElement1.setAttribute('y', 210)
+  }
 
-        
-       
+}
+
+
+

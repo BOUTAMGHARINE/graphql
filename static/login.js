@@ -4,20 +4,19 @@ import { navigateTo } from "./index.js"
 
 
 
-export let jwt =null;
 export function CreatloginePage() {
   const token = localStorage.getItem("jwt");
 
 
-  if (jwt !== null && token === jwt) {
+  if (token) {
 
     navigateTo("/Profile")
     return
   }
-    const onlydiv = document.getElementById("div")
-    onlydiv.style.maxWidth = "400px"
-    onlydiv.innerHTML=""
-    onlydiv.innerHTML =`  <div class="header"> <h1>Welcomme to GraphQL</h1></div>
+  const onlydiv = document.getElementById("div")
+  onlydiv.style.maxWidth = "400px"
+  onlydiv.innerHTML = ""
+  onlydiv.innerHTML = `  <div class="header"> <h1>Welcomme to GraphQL</h1></div>
 
     <div class="centerdiv">
      <form action="/" class="forme" id="loginForm">
@@ -35,53 +34,53 @@ export function CreatloginePage() {
     <script src="../static/index.js"></script>
     
 </body>`
-login()
+  login()
 }
-export function login(){
-  
-   
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault();  
-        const usernameOrEmail = document.getElementById('usernameOrEmail').value;
-        const password = document.getElementById('password').value;
-        let Messageerror = document.getElementById('error') ;
-         Messageerror.innerHTML="";
-      
-        const credentials = `${usernameOrEmail}:${password}`;
-        
-        const base64Credentials = btoa(credentials);
-      
-        fetch('https://learn.zone01oujda.ma/api/auth/signin', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': `Basic ${base64Credentials}`,  
-          },
-          body: new URLSearchParams() 
-        })
-          .then(response => {
-            
-            if (!response.ok) {
-              throw new Error('Invalid credentials');
-            }
-            return response.json();  
-          })
-          .then(data => {
-            
-            
-              jwt = data;  
-      
-            localStorage.setItem('jwt', jwt);
-    
-            navigateTo("/profile")
-    
-          })
-          .catch(error => {
-            
-            // Gérer les erreurs (informations d'identification incorrectes)
-           
-            Messageerror.innerHTML = error;
-            Messageerror.style.color="red"
-          });
+export function login() {
+
+
+  document.getElementById('loginForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const usernameOrEmail = document.getElementById('usernameOrEmail').value;
+    const password = document.getElementById('password').value;
+    let Messageerror = document.getElementById('error');
+    Messageerror.innerHTML = "";
+
+    const credentials = `${usernameOrEmail}:${password}`;
+
+    const base64Credentials = btoa(credentials);
+
+    fetch('https://learn.zone01oujda.ma/api/auth/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${base64Credentials}`,
+      },
+      body: new URLSearchParams()
+    })
+      .then(response => {
+
+        if (!response.ok) {
+          throw new Error('Invalid credentials');
+        }
+        return response.json();
+      })
+      .then(data => {
+
+
+
+        localStorage.setItem('jwt', data);
+
+        navigateTo("/profile")
+
+      })
+      .catch(error => {
+
+        // Gérer les erreurs (informations d'identification incorrectes)
+
+        Messageerror.innerHTML = error;
+        Messageerror.style.color = "red"
       });
-    }
+  });
+}
+

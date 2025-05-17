@@ -23,7 +23,7 @@ const router = async () => {
   const routes = [
     { path: "/login", view: CreatloginePage },
     { path: "/profile", view: FetchProfile },
-    { path: "/", view: FetchProfile }
+    { path: "/index.html", view: CreatloginePage}
   ]
   let find = routes.map(route => {
     return {
@@ -46,6 +46,7 @@ const router = async () => {
 
 
 }
+
 router()
 
 
