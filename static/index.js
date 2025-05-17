@@ -17,7 +17,6 @@ export const navigateTo = url => {
   router()
 };
 
-console.log(location.pathname);
 const router = async () => {
   
 

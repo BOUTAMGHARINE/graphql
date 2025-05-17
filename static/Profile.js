@@ -1,4 +1,5 @@
 import { navigateTo } from "./index.js";
+import { jwt } from "./login.js";
 
 
 
@@ -7,7 +8,7 @@ export async function FetchProfile() {
   const token = localStorage.getItem("jwt");
 
 
-  if (!token) {
+  if (!token || token !== jwt) {
 
     navigateTo("/login")
     return

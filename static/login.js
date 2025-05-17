@@ -1,10 +1,15 @@
 import { navigateTo } from "./index.js"
 
+
+
+
+
+export let jwt =null;
 export function CreatloginePage() {
   const token = localStorage.getItem("jwt");
 
 
-  if (token) {
+  if (jwt !== null && token === jwt) {
 
     navigateTo("/Profile")
     return
@@ -33,6 +38,7 @@ export function CreatloginePage() {
 login()
 }
 export function login(){
+  
    
     document.getElementById('loginForm').addEventListener('submit', function(event) {
         event.preventDefault();  
@@ -62,14 +68,12 @@ export function login(){
             return response.json();  
           })
           .then(data => {
-            console.log("hihi");
             
             
-            const jwt = data;  
+              jwt = data;  
       
             localStorage.setItem('jwt', jwt);
     
-            console.log('Login successful! JWT:', jwt);
             navigateTo("/profile")
     
           })
