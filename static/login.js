@@ -1,4 +1,3 @@
-// import { navigateTo } from "./index.js"
 import { FetchProfile } from "./Profile.js";
 
 
@@ -11,7 +10,6 @@ export function CreatloginePage() {
 
   if (token) {
     FetchProfile()
-    // navigateTo("/Profile")
     return
   }
   const onlydiv = document.getElementById("div")
